@@ -1,0 +1,2 @@
+include ':app', ':JarJarToolPlugin'
+rootProject.name='JarPlugin'

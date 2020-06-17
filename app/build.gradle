@@ -1,0 +1,51 @@
+apply plugin: 'com.android.application'
+//jarjar.jar插件
+apply plugin: 'com.bzm.jarjartoolplugin'
+Jarjar{
+    //jarjar.jar路径
+    jarjarPath 'D:\\tool\\jarjar\\jarjar-1.7.2.jar'
+    //要保存的路径
+    filePath 'D:\\tool\\jarjar'
+    jarInfos{
+        //要修改的路径名
+        def packageName = "com.bzm.network"
+        // okhttp 重新生成包的名字 如 okhttp.jar okio.jar
+        okhttp{
+            //要修改的jar包
+            jarPath 'D:\\tool\\jarjar\\okhttp-3.8.0.jar'
+            //修改的规则 | 分割
+            rule "rule pattern result|zap pattern|rule okhttp3.** ${packageName}.okhttp3.@1|rule okio.** ${packageName}.okio.@1"
+        }
+        okio{
+            jarPath "D:\\tool\\jarjar\\okio-1.9.0.jar"
+            rule "rule pattern result|zap pattern|rule okio.** ${packageName}.okio.@1"
+        }
+    }
+}
+android {
+    compileSdkVersion 29
+    buildToolsVersion "29.0.3"
+    defaultConfig {
+        applicationId "com.bzm.jarplugin"
+        minSdkVersion 22
+        targetSdkVersion 29
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'androidx.appcompat:appcompat:1.1.0'
+    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+}
