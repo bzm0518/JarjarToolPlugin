@@ -5,7 +5,6 @@ import org.gradle.api.NamedDomainObjectContainer
 import org.gradle.api.Project
 
 class Jarjar{
-
     String jarjarPath
 
     String filePath
